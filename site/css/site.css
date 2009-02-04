@@ -1,0 +1,15 @@
+body {
+    margin: 25px 0;
+    font-family: Helvetica, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+    font-size: 3.5em;
+    font-weight: bold;
+}
+
+h2 {
+    margin-top: 0.5em;
+    font-size: 2em;
+    font-weight: bold;
+}   
