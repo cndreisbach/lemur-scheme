@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<div id="post" class="post">
+  <h2 class="post_title">{{ page.title }}</h2>
+  <div class="post_info">
+    <span>{{ page.date | date_to_string }}</span>
+    <div class="post_content">
+      {{ content }}
+    </div>
+
+    <p><a href="/lemur-scheme/">Go back to home page</a></p>
+  </div>
+</div>

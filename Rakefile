@@ -16,7 +16,7 @@ end
 
 namespace :site do
   
-  # Autogenerate site
+  desc "Autogenerate site"
   task :auto do
     source = File.join(File.dirname(__FILE__), '/site')
     destination = '/tmp/lemur-scheme'

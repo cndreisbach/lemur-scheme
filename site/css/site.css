@@ -1,15 +1,38 @@
 body {
     margin: 25px 0;
+    font-family: Times, "Times New Roman", serif;
+}
+
+h1, h2, h3 {
     font-family: Helvetica, "Helvetica Neue", sans-serif;
+    font-weight: bold;
 }
 
 h1 {
-    font-size: 3.5em;
-    font-weight: bold;
+    font-size: 350%;
 }
 
 h2 {
     margin-top: 0.5em;
-    font-size: 2em;
-    font-weight: bold;
+    font-size: 200%;
+}
+
+h3 {
+    margin-top: 0.75em;
+    font-size: 150%;
+}
+
+p, ul {
+    font-size: 125%;
+}
+
+p {
+    margin: 1em 0;   
+}
+
+ul li {
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-left: 1em;
+    margin-bottom: 0.5em;
 }
