@@ -23,6 +23,10 @@ h3 {
 }
 
 p, ul {
+    font-size: 110%;
+}
+
+#content p, #content ul {
     font-size: 125%;
 }
 
@@ -35,4 +39,12 @@ ul li {
     list-style-position: outside;
     margin-left: 1em;
     margin-bottom: 0.5em;
+}
+
+strong {
+    font-weight: bold;
+}
+
+#sidebar h2 {
+    font-size: 150%;
 }
