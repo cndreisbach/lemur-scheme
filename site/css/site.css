@@ -53,3 +53,10 @@ strong {
     font-size: 150%;
 }
 
+blockquote {
+    font-style: italic;
+    margin-left: 1em;
+    border-left: 3px solid #FF9900;
+    padding-left: 1em;
+}
+

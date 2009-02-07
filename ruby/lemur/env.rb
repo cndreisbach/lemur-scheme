@@ -28,10 +28,6 @@ module Lemur
         raise "No definition of #{symbol} to set to #{value}" if @parent.nil?
         @parent.set!(symbol, value)
       end
-    end
-    
-    def copy
-      Env.new(@parent, @defs.clone)
-    end
+    end    
   end
 end
