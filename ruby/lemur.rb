@@ -134,3 +134,7 @@ String.send(:include, Lemur::StringExtensions)
 Numeric.send(:include, Lemur::NumericExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
 Hash.send(:include, Lemur::HashExtensions)
+
+if $0 == __FILE__
+  Lemur::Interpreter.new.repl
+end
