@@ -8,7 +8,8 @@ title: Home Page
     <h2 class="post_title">{{ post.title }}</h2>
     <div class="post_info">
       <span>{{ post.date | date_to_string }}</span> &raquo;
-      <a href="/lemur-scheme{{ post.url }}">Permalink</a>
+      <a href="/lemur-scheme{{ post.url }}">Permalink</a> &raquo;
+      <a href="/lemur-scheme{{ post.url }}#disqus_thread">View Comments</a>
       <div class="post_content">
         {{ post.content }}
       </div>
@@ -17,3 +18,17 @@ title: Home Page
   {% endfor %}
 </div>
 
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+		var links = document.getElementsByTagName('a');
+		var query = '?';
+		for(var i = 0; i < links.length; i++) {
+			if(links[i].href.indexOf('#disqus_thread') >= 0) {
+				query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+			}
+		}
+		document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/lemurscheme/get_num_replies.js' + query + '"></' + 'script>');
+	})();
+//]]>
+</script>

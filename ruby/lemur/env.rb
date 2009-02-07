@@ -30,8 +30,8 @@ module Lemur
       end
     end
     
-    def deep_copy
-      Env.new(@parent, @defs.deep_copy)
+    def copy
+      Env.new(@parent, @defs.clone)
     end
   end
 end

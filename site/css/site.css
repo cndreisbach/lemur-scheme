@@ -41,6 +41,10 @@ ul li {
     margin-bottom: 0.5em;
 }
 
+em {
+    font-style: italic;
+}
+
 strong {
     font-weight: bold;
 }

@@ -18,6 +18,7 @@ namespace :site do
   
   desc "Autogenerate site"
   task :auto do
+    Jekyll.pygments = true
     source = File.join(File.dirname(__FILE__), '/site')
     destination = '/tmp/lemur-scheme'
     

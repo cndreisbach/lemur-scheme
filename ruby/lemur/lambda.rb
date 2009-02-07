@@ -1,7 +1,7 @@
 module Lemur
   class Lambda
     def initialize(env, forms, params, *code)
-      @env = env.deep_copy
+      @env = env.copy
       @forms = forms
       @params = params.arrayify
       @code = code
