@@ -11,7 +11,7 @@ module Lemur
     end
 
     def lispeval(env, forms)
-      if forms.respond_to?(:defined) and forms.defined?(car)
+      if forms.respond_to?(:defined?) and forms.defined?(car)
         forms.lookup(car).call(env, forms, *cdr.arrayify)
       else
         car.lispeval(env, forms).call(*cdr.arrayify.map { |x| x.lispeval(env, forms) })

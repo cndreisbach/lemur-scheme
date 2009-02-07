@@ -29,5 +29,9 @@ module Lemur
         @parent.set!(symbol, value)
       end
     end
+    
+    def deep_copy
+      Env.new(@parent, @defs.deep_copy)
+    end
   end
 end
