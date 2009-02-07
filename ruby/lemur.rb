@@ -39,7 +39,14 @@ module Lemur
     },
     :lambda => lambda { |env, forms, params, *code|
       Lambda.new(env, forms, params, *code)
-    }
+    },
+    :defmacro => lambda { |env, forms, name, exp|
+      func = exp.lispeval(env, forms)
+      forms.define(name, lambda { |env2, forms2, *rest| 
+        func.call(*rest).lispeval(env, forms)
+      })
+      name
+    },
   }
 
   def self.scheme_bool(predicate)
