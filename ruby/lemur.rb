@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$:.push(File.dirname(__FILE__))
+
 require 'rubygems'
 require 'sexp'
 require 'lemur/cons'
@@ -81,22 +83,6 @@ module Lemur
     def consify
       map { |x| x.consify }.reverse.inject(:nil) { |cdr, car| Cons.new(car, cdr) }
     end
-    
-    def deep_copy
-      copy = self.clone
-      copy.each_with_index do |thing, index|
-        copy[index] = thing.deep_copy
-      end
-    end
-  end
-  
-  module HashExtensions
-    def deep_copy
-      copy = self.clone
-      copy.each do |sym, val|
-        copy[sym] = val.deep_copy
-      end
-    end
   end
   
   module SymbolExtensions
@@ -135,7 +121,6 @@ Symbol.send(:include, Lemur::SymbolExtensions)
 String.send(:include, Lemur::StringExtensions)
 Numeric.send(:include, Lemur::NumericExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
-Hash.send(:include, Lemur::HashExtensions)
 
 if $0 == __FILE__
   Lemur::Interpreter.new.repl

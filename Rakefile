@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'grancher/task'
 require 'rake'
+require 'rake/testtask'
 require 'jekyll'
 require 'serve'
 require 'launchy'
@@ -13,6 +14,14 @@ Grancher::Task.new do |g|
 
   g.directory 'site'
 end
+
+Rake::TestTask.new do |t|
+  t.libs << "ruby/test" << "ruby/lemur"
+  t.test_files = FileList['ruby/test/*_test.rb']
+  t.verbose = true
+end
+
+task :default => :test
 
 namespace :site do
   
