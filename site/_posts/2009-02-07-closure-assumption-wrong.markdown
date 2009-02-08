@@ -39,3 +39,4 @@ NameError: undefined local variable or method `x' for main:Object
 	from (irb):5
 </code></pre>
 
+_Thanks to Dave Cleaver and [Topher Cyll](http://www.cyll.org/) for help on figuring this out._
