@@ -37,15 +37,15 @@ module Lemur
     :set! => lambda { |env, forms, sym, value| 
       env.set!(sym, value.lispeval(env, forms))
     },
+    :lambda => lambda { |env, forms, params, *code|
+      Lambda.new(env, forms, params, *code)
+    },
     :if => lambda { |env, forms, cond, xthen, xelse|
       if cond.lispeval(env, forms) != :nil
         xthen.lispeval(env, forms)
       else
         xelse.lispeval(env, forms)
       end
-    },
-    :lambda => lambda { |env, forms, params, *code|
-      Lambda.new(env, forms, params, *code)
     },
     :defmacro => lambda { |env, forms, name, exp|
       func = exp.lispeval(env, forms)
@@ -54,6 +54,14 @@ module Lemur
       })
       name
     },
+    :ruby => lambda { |env, forms, name| 
+      Kernel.const_get(name)
+    },
+    %s[!] => lambda { |env, forms, object, message, *params|
+      evaled_params = params.map { |p| p.lispeval(env, forms).arrayify }
+      proc = evaled_params.last.kind_of?(Lambda) ? evaled_params.pop : nil
+      object.lispeval(env, forms).send(message, *evaled_params, &proc).consify
+    }
   }
 
   def self.scheme_bool(predicate)
@@ -62,7 +70,11 @@ module Lemur
   
   module ObjectExtensions
     def lispeval(env, forms)
-      raise "lispeval not implemented for #{self.class}"
+      self
+    end
+    
+    def arrayify
+      self
     end
     
     def consify
@@ -71,15 +83,7 @@ module Lemur
 
     def conslist?
       false
-    end
-    
-    def deep_copy
-      begin
-        self.clone
-      rescue TypeError
-        self
-      end
-    end
+    end    
   end
   
   module ArrayExtensions
@@ -105,24 +109,10 @@ module Lemur
       self == :nil
     end
   end
-  
-  module StringExtensions
-    def lispeval(env, forms)
-      self
-    end
-  end
-
-  module NumericExtensions
-    def lispeval(env, forms)
-      self
-    end
-  end
 end
 
 Object.send(:include, Lemur::ObjectExtensions)
 Symbol.send(:include, Lemur::SymbolExtensions)
-String.send(:include, Lemur::StringExtensions)
-Numeric.send(:include, Lemur::NumericExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
 
 if $0 == __FILE__

@@ -20,5 +20,9 @@ module Lemur
     def to_sexp
       "(lambda #{@params.to_sexp} #{@code.map {|x| x.to_sexp}.join(' ')})"
     end
+    
+    def to_proc
+      return lambda { |*args| self.call(*args) }
+    end
   end
 end
