@@ -1,4 +1,5 @@
 require 'rubygems'
 require 'shoulda'
 require 'test/unit'
-require File.join(File.dirname(__FILE__), '..', 'lemur')
+$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+require 'lemur'
