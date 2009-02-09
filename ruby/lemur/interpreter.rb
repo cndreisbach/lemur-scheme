@@ -1,3 +1,5 @@
+require 'readline'
+
 module Lemur
   class Interpreter
     def initialize(defaults = Lemur::DEFAULTS, forms = Lemur::FORMS)
@@ -12,14 +14,14 @@ module Lemur
     end
     
     def repl
-      print "> "
-      STDIN.each_line do |line|
+      loop do
+        line = Readline::readline('> ')
+        Readline::HISTORY.push(line)
         begin
           puts self.eval(line).to_sexp
         rescue StandardError => e
           puts "ERROR: #{e}"
         end
-        print "> "
       end
     end
   end
