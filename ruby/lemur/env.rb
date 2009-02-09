@@ -6,7 +6,8 @@ module Lemur
     end
 
     def define(symbol, value)
-      @defs[symbol] = value
+      raise "#{symbol} already defined" if self.defined?(symbol)
+      set!(symbol, value)
     end
 
     def defined?(symbol)
@@ -22,12 +23,7 @@ module Lemur
     end
 
     def set!(symbol, value)
-      if @defs.has_key?(symbol)
-        @defs[symbol] = value
-      else
-        raise "No definition of #{symbol} to set to #{value}" if @parent.nil?
-        @parent.set!(symbol, value)
-      end
+      @defs[symbol] = value
     end    
   end
 end
