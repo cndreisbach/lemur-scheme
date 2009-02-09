@@ -9,11 +9,12 @@ module Lemur
     
     def call(*args)
       raise "Expected #{@params.size} arguments" unless args.size == @params.size
-      binding = Env.new(@env)
+      localenv = Env.new(@env)
+      localforms = Env.new(@forms)
       @params.zip(args).each do |sym, value|
-        binding.define(sym, value)
+        localenv.define(sym, value)
       end
-      @code.map { |c| c.lispeval(binding, @forms) }.last
+      @code.map { |c| c.lispeval(localenv, localforms) }.last
     end
     
     def to_sexp
