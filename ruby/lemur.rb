@@ -27,6 +27,9 @@ module Lemur
   }
   
   FORMS = {
+    :eval => lambda { |env, forms, *code| 
+      code.map { |c| c.lispeval(env, forms) }.map { |c| c.lispeval(env, forms) }.last
+    },
     :quote => lambda { |env, forms, exp| exp },
     :define => lambda { |env, forms, sym, value| 
       env.define(sym, value.lispeval(env, forms))

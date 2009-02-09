@@ -8,6 +8,10 @@ class LemurTest < Test::Unit::TestCase
       @int = Interpreter.new
     end
     
+    should "be able to eval" do
+      assert_equal 10, @int.eval('(eval (quote (+ 1 2 3 4)))')
+    end
+    
     should "have lexical macros" do
       @int.eval "(define a (lambda () (defmacro myquote (lambda (thing) (list (quote quote) thing))) (myquote b)))"
       assert_raises(RuntimeError) { @int.eval "(myquote b)" }
