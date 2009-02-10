@@ -24,13 +24,6 @@ h3 {
 
 p, ul {
     font-size: 110%;
-}
-
-#content p, #content ul {
-    font-size: 125%;
-}
-
-p {
     margin: 1em 0;   
 }
 
@@ -39,6 +32,13 @@ ul li {
     list-style-position: outside;
     margin-left: 1em;
     margin-bottom: 0.5em;
+}
+
+blockquote {
+    font-style: italic;
+    margin-left: 1em;
+    border-left: 3px solid #FF9900;
+    padding-left: 1em;
 }
 
 em {
@@ -53,10 +53,6 @@ strong {
     font-size: 150%;
 }
 
-blockquote {
-    font-style: italic;
-    margin-left: 1em;
-    border-left: 3px solid #FF9900;
-    padding-left: 1em;
+#content p, #content ul {
+    font-size: 125%;
 }
-
