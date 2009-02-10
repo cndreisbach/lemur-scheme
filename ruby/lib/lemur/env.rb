@@ -6,7 +6,7 @@ module Lemur
     end
 
     def define(symbol, value)
-      raise "#{symbol} already defined" if self.defined?(symbol)
+      puts "Warning: #{symbol} already defined: #{lookup(symbol).to_sexp}" if self.defined?(symbol)
       set!(symbol, value)
     end
 
@@ -24,6 +24,10 @@ module Lemur
 
     def set!(symbol, value)
       @defs[symbol] = value
-    end    
+    end
+    
+    def merge(hash)   
+      @defs.merge!(hash)
+    end
   end
 end

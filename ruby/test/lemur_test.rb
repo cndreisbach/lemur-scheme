@@ -9,6 +9,7 @@ class LemurTest < Test::Unit::TestCase
     end
     
     should "be able to eval" do
+      assert_equal 6, @int.eval('(eval (quote (+ 1 2 3)))')
       assert_equal 10, @int.eval('(eval (quote (+ 1 2 3 4)))')
     end
     
