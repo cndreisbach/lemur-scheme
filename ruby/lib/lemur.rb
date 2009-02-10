@@ -43,15 +43,25 @@ module Lemur
         env.define(sym, values.map { |v| v.lispeval(env, forms) }.last)
       end
     },    
+    :set! => lambda { |env, forms, sym, value| 
+      env.set!(sym, value.lispeval(env, forms))
+    },
     :eval => lambda { |env, forms, *code| 
       code.map { |c| c.lispeval(env, forms) }.map { |c| c.lispeval(env, forms) }.last
     },
     :quote => lambda { |env, forms, exp| exp },
-    :set! => lambda { |env, forms, sym, value| 
-      env.set!(sym, value.lispeval(env, forms))
-    },
     :lambda => lambda { |env, forms, params, *code|
       Lambda.new(env, forms, params, *code)
+    },
+    :and => lambda { |env, forms, *code|
+      code.inject(TRUE) { |result, c|
+        (result != FALSE) ? c.lispeval(env, forms) : FALSE
+      }
+    },
+    :or => lambda { |env, forms, *code| 
+      code.inject(FALSE) { |result, c|
+        (result == FALSE) ? c.lispeval(env, forms) : result
+      }
     },
     :if => lambda { |env, forms, cond, xthen, xelse|
       if cond.lispeval(env, forms) != FALSE
@@ -67,8 +77,8 @@ module Lemur
       })
       name
     },
-    :ruby => lambda { |env, forms, name| 
-      Kernel.const_get(name)
+    :ruby => lambda { |env, forms, *names| 
+      names.inject(Kernel) { |mod, name| mod.const_get(name) }
     },
     %s[!] => lambda { |env, forms, object, message, *params|
       evaled_params = params.map { |p| p.lispeval(env, forms).arrayify }
