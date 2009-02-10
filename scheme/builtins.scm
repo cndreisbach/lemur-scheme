@@ -7,6 +7,7 @@
 (define (symbol? x) (and (not (boolean? x)) (! x is_a? (ruby Symbol))))
 (define (string? x) (! x is_a? (ruby String)))
 (define (procedure? x) (! x respond_to? "call"))
+(define (pair? x) (not (atom? x)))
 
 (define (quit) (! (ruby Kernel) exit))
 

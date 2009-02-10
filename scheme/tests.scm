@@ -47,3 +47,11 @@
     (not (procedure? "lambda"))
     (not (procedure? (quote /)))
   ))
+  
+(assert "pair? should work" 
+  (and
+    (pair? (cons 1 2))
+    (pair? (cons 1 (cons 2 ())))
+    (not (pair? (quote a)))
+    (not (pair? ()))
+  ))
