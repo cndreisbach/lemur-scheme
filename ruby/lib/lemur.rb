@@ -31,7 +31,7 @@ module Lemur
     :atom? => lambda { |x| scheme_bool(!x.kind_of?(Cons)) },
     :eq? => lambda { |x, y| scheme_bool(x.equal?(y)) },
     :list => lambda { |*args| Cons.from_a(args) },
-    :print => lambda { |*args| puts *args.map { |a| a.to_sexp }; :nil },
+    :print => lambda { |*args| puts *args.map { |a| a.to_sexp }; FALSE },
     :cons => lambda { |car, cdr| Cons.new(car, cdr) }
   }
 
@@ -135,5 +135,9 @@ TrueClass.send(:include, Lemur::TrueExtensions)
 FalseClass.send(:include, Lemur::FalseExtensions)
 
 if $0 == __FILE__
-  Lemur::Interpreter.new.repl
+  int = Lemur::Interpreter.new
+  ARGV.each do |file|
+    int.eval File.read(file)
+  end
+  int.repl
 end

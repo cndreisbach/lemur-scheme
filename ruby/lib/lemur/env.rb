@@ -7,7 +7,7 @@ module Lemur
 
     def define(symbol, value)
       puts "Warning: #{symbol} already defined: #{lookup(symbol).to_sexp}" if self.defined?(symbol)
-      set!(symbol, value)
+      @defs[symbol] = value
     end
 
     def defined?(symbol)
@@ -23,6 +23,7 @@ module Lemur
     end
 
     def set!(symbol, value)
+      puts "Warning: setting non-allocated #{symbol}" unless self.defined?(symbol)
       @defs[symbol] = value
     end
     
