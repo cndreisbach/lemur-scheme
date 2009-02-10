@@ -36,13 +36,17 @@ module Lemur
   }
 
   FORMS = {
+    :define => lambda { |env, forms, sym, *values|
+      if sym.is_a?(Cons)
+        env.define(sym.car, Lambda.new(env, forms, sym.cdr, *values))
+      else
+        env.define(sym, values.map { |v| v.lispeval(env, forms) }.last)
+      end
+    },    
     :eval => lambda { |env, forms, *code| 
       code.map { |c| c.lispeval(env, forms) }.map { |c| c.lispeval(env, forms) }.last
     },
     :quote => lambda { |env, forms, exp| exp },
-    :define => lambda { |env, forms, sym, value| 
-      env.define(sym, value.lispeval(env, forms))
-    },
     :set! => lambda { |env, forms, sym, value| 
       env.set!(sym, value.lispeval(env, forms))
     },
@@ -136,8 +140,11 @@ FalseClass.send(:include, Lemur::FalseExtensions)
 
 if $0 == __FILE__
   int = Lemur::Interpreter.new
-  ARGV.each do |file|
-    int.eval File.read(file)
+  if ARGV.empty?
+    int.repl
+  else
+    ARGV.each do |file|
+      int.eval File.read(file)
+    end
   end
-  int.repl
 end
