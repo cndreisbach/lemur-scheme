@@ -21,6 +21,17 @@ define 'lemur' do
     end
   end
   
+  desc "Scheme code"
+  define 'scheme' do
+    
+    desc "Run tests"
+    task :test do
+      test_cmd = "#{project('lemur')._('ruby', 'lib', 'lemur')} #{_('tests.scm')}"
+      puts test_cmd
+      puts `#{project('lemur')._('ruby', 'lib', 'lemur.rb')} #{_('tests.scm')}`
+    end
+  end
+  
   desc "GitHub site"
   define 'site' do
     Grancher::Task.new do |g|
