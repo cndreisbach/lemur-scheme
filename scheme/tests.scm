@@ -55,3 +55,8 @@
     (not (pair? (quote a)))
     (not (pair? ()))
   ))
+
+(asserteq "if should be able to have two clauses and result in then" 1 (if (eq? 1 1) 1 2))
+(asserteq "if should be able to have two clauses and result in else" 2 (if (eq? 1 2) 1 2))
+(asserteq "if should be able to have only one clause and result in then" 1 (if (eq? 1 1) 1))
+(asserteq "if should be able to have only one clause and result in false" #f (if (eq? 1 2) 1))

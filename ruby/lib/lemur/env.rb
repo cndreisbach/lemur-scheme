@@ -6,7 +6,6 @@ module Lemur
     end
 
     def define(symbol, value)
-      puts "Warning: #{symbol} already defined: #{lookup(symbol).to_sexp}" if self.defined?(symbol)
       @defs[symbol] = value
     end
 

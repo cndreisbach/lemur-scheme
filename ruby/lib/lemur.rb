@@ -63,11 +63,13 @@ module Lemur
         (result == FALSE) ? c.lispeval(env, forms) : result
       }
     },
-    :if => lambda { |env, forms, cond, xthen, xelse|
+    :if => lambda { |env, forms, cond, *tails|
+      raise "Too many clause in if" if tails.length > 2
+      xthen, xelse = *tails
       if cond.lispeval(env, forms) != FALSE
         xthen.lispeval(env, forms)
       else
-        xelse.lispeval(env, forms)
+        xelse.nil? ? FALSE : xelse.lispeval(env, forms)
       end
     },
     :defmacro => lambda { |env, forms, name, exp|
