@@ -6,6 +6,8 @@ require 'jekyll'
 require 'serve'
 require 'directory_watcher'
 
+repositories.remote << 'http://www.ibiblio.org/maven2/'
+
 desc "Lemur Scheme is a Scheme interpreter for the JVM using JRuby, Scala, and Java for its implementation"
 define 'lemur' do
   manifest['Copyright'] = "(c) 2009 Clinton R. Nixon"
