@@ -23,6 +23,7 @@ module Lemur
   DEFAULTS = {
     FALSE => FALSE,
     TRUE => TRUE,
+    :else => TRUE,
     :nil => :nil,
     :+ => lambda { |*args| args.inject { |x, y| x + y } },
     :- => lambda { |*args| args.inject { |x, y| x - y } },
@@ -63,14 +64,27 @@ module Lemur
         (result == FALSE) ? c.lispeval(env, forms) : result
       }
     },
-    :if => lambda { |env, forms, cond, *tails|
-      raise "Too many clause in if" if tails.length > 2
-      xthen, xelse = *tails
+    :if => lambda { |env, forms, cond, *code|
+      raise "Too many clause in if" if code.length > 2
+      xthen, xelse = *code
       if cond.lispeval(env, forms) != FALSE
         xthen.lispeval(env, forms)
       else
         xelse.nil? ? FALSE : xelse.lispeval(env, forms)
       end
+    },
+    :cond => lambda { |env, forms, *code|
+      passed = FALSE
+      result = FALSE
+      
+      code.each do |c|
+        if passed == FALSE && c.car.lispeval(env, forms) != FALSE
+          passed = TRUE
+          result = c.cdr.car.lispeval(env, forms)
+        end
+      end
+      
+      result
     },
     :defmacro => lambda { |env, forms, name, exp|
       func = exp.lispeval(env, forms)
