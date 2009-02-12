@@ -1,0 +1,30 @@
+require 'rubygems'
+require 'rparsec'
+
+module Lemur
+  module Parser
+    extend RParsec::Parsers
+    extend RParsec::Functors
+    
+    Integer = integer.map { |x| x.to_i }
+    Float = number.map { |x| x.to_f }
+    Number = longest(Integer, Float)
+    Special = Regexp.escape '+-*/=<>?!@#$%^&:~'
+    Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x| x.to_sym }
+    Escape = (string('\\') >> any)
+    Quote = string('"')
+    NotQuote = not_string('"')
+    String = (Quote >> (Escape|NotQuote).many << Quote).map { |charseq|
+      charseq.map { |charnum| charnum.chr }.to_s
+    }
+    List = char('(') >> lazy { Values } << char(')')
+    Value = alt(List, String, Number, Symbol)
+    Values = Value.delimited(whitespaces)
+    
+    Parser = Values << eof
+    
+    def self.parse(text)
+      Parser.parse(text.strip)
+    end
+  end
+end

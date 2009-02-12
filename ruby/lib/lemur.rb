@@ -8,6 +8,7 @@ require 'sexp'
 require 'lemur/cons'
 require 'lemur/env'
 require 'lemur/lambda'
+require 'lemur/parser'
 require 'lemur/interpreter'
 
 module Lemur
