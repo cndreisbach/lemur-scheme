@@ -12,10 +12,6 @@ module Lemur
       @car, @cdr = car, cdr
     end
 
-    def empty?
-      @car.nil? and @cdr.nil?
-    end
-
     def lispeval(env, forms)
       if forms.respond_to?(:defined?) and forms.defined?(car)
         forms.lookup(car).call(env, forms, *cdr.arrayify)
@@ -33,7 +29,7 @@ module Lemur
     end
 
     def conslist?
-      self.empty? or cdr.conslist?
+      cdr.conslist?
     end
     
     def to_scm

@@ -12,7 +12,7 @@ class ConsTest < Test::Unit::TestCase
   
   context "A well-formed cons" do
     setup do
-      @cons = Cons.new(:hello, Cons.new(:world, :nil))
+      @cons = Cons.new(:hello, Cons.new(:world, nil))
     end
     
     should "be a conslist" do

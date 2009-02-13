@@ -21,7 +21,6 @@ module Lemur
     FALSE_SYM => false,
     TRUE_SYM => false,
     :else => true,
-    :nil => :nil,
     :+ => lambda { |*args| args.inject { |x, y| x + y } },
     :- => lambda { |*args| args.inject { |x, y| x - y } },
     :* => lambda { |*args| args.inject { |x, y| x * y } },
@@ -29,7 +28,7 @@ module Lemur
     :atom? => lambda { |x| !x.kind_of?(Cons) },
     :eq? => lambda { |x, y| x.equal?(y) },
     :list => lambda { |*args| Cons.from_a(args) },
-    :print => lambda { |*args| puts *args.map { |a| a.to_scm }; FALSE_SYM },
+    :print => lambda { |*args| puts *args.map { |a| a.to_scm } },
     :cons => lambda { |car, cdr| Cons.new(car, cdr) }
   }
 
@@ -119,10 +118,24 @@ module Lemur
 
     alias :to_scm :to_sexp
   end
+
+  module NilExtensions
+    def arrayify
+      []
+    end
+
+    def conslist?
+      true
+    end
+
+    def to_scm
+      '()'
+    end
+  end
   
   module ArrayExtensions
     def consify
-      map { |x| x.consify }.reverse.inject(:nil) { |cdr, car| Cons.new(car, cdr) }
+      map { |x| x.consify }.reverse.inject(nil) { |cdr, car| Cons.new(car, cdr) }
     end
 
     def to_scm
@@ -135,18 +148,6 @@ module Lemur
       env.lookup(self)
     end
     
-    def arrayify
-      if conslist?
-        []
-      else
-        self
-      end
-    end
-
-    def conslist?
-      self == :nil
-    end
-
     def to_scm
       self.to_s
     end
@@ -166,6 +167,7 @@ module Lemur
 end
 
 Object.send(:include, Lemur::ObjectExtensions)
+NilClass.send(:include, Lemur::NilExtensions)
 Symbol.send(:include, Lemur::SymbolExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
 TrueClass.send(:include, Lemur::TrueExtensions)
