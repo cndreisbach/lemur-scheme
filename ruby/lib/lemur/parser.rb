@@ -5,7 +5,7 @@ module Lemur
   module Parser
     extend RParsec::Parsers
     extend RParsec::Functors
-    
+        
     Integer = integer.map { |x| x.to_i }
     Float = number.map { |x| x.to_f }
     Number = longest(Integer, Float)
@@ -19,7 +19,7 @@ module Lemur
     }
     List = char('(') >> lazy { Values } << char(')')
     Value = alt(List, String, Number, Symbol)
-    Values = Value.delimited(whitespaces)
+    Values = Value.lexeme(whitespaces | comment_line(';'))
     
     Parser = Values << eof
     

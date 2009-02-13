@@ -68,4 +68,14 @@ class ParserTest < Test::Unit::TestCase
   should "parse s-expressions" do
     assert_equal [[:+, [:max, 2, 3], 7]], Parser.parse('(+ (max 2 3) 7)')
   end
+  
+  should "parse s-expressions with comments" do
+    assert_equal [[:+, 1, 2]], Parser.parse(%Q{
+      (+ ; plus-sign
+       1 ; the number one
+       2 ; the number two
+      ) ; close s-expression
+    }.strip)
+  end
+  
 end
