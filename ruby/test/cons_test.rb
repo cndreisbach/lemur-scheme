@@ -30,7 +30,7 @@ class ConsTest < Test::Unit::TestCase
     end
     
     should "represent itself as a sexp" do
-      assert_equal "(hello world)", @cons.to_sexp
+      assert_equal "(hello world)", @cons.to_scm
     end
   end
   
@@ -48,7 +48,7 @@ class ConsTest < Test::Unit::TestCase
     end
     
     should "be able to represent itself as a sexp" do
-      assert_equal "(cons hello world)", @cons.to_sexp
+      assert_equal "(cons hello world)", @cons.to_scm
     end
   end
 end

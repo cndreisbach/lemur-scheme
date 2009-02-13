@@ -17,8 +17,8 @@ module Lemur
       @code.map { |c| c.lispeval(localenv, localforms) }.last
     end
     
-    def to_sexp
-      "(lambda #{@params.to_sexp} #{@code.map {|x| x.to_sexp}.join(' ')})"
+    def to_scm
+      "(lambda #{@params.to_scm} #{@code.map {|x| x.to_scm}.join(' ')})"
     end
     
     def to_proc

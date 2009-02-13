@@ -14,26 +14,22 @@ require 'lemur/interpreter'
 module Lemur
   
   SCHEME_BUILTINS = File.join(LEMUR_HOME, 'scheme', 'builtins.scm')
-  TRUE = %s[#t]
-  FALSE = %s[#f]
-  
-  def self.scheme_bool(predicate)
-    predicate ? TRUE : FALSE
-  end
-  
+  TRUE_SYM = '#t'.to_sym
+  FALSE_SYM = '#f'.to_sym
+
   DEFAULTS = {
-    FALSE => FALSE,
-    TRUE => TRUE,
-    :else => TRUE,
+    FALSE_SYM => false,
+    TRUE_SYM => false,
+    :else => true,
     :nil => :nil,
     :+ => lambda { |*args| args.inject { |x, y| x + y } },
     :- => lambda { |*args| args.inject { |x, y| x - y } },
     :* => lambda { |*args| args.inject { |x, y| x * y } },
     :"/" => lambda { |*args| args.inject { |x, y| x / y } },
-    :atom? => lambda { |x| scheme_bool(!x.kind_of?(Cons)) },
-    :eq? => lambda { |x, y| scheme_bool(x.equal?(y)) },
+    :atom? => lambda { |x| !x.kind_of?(Cons) },
+    :eq? => lambda { |x, y| x.equal?(y) },
     :list => lambda { |*args| Cons.from_a(args) },
-    :print => lambda { |*args| puts *args.map { |a| a.to_sexp }; FALSE },
+    :print => lambda { |*args| puts *args.map { |a| a.to_scm }; FALSE_SYM },
     :cons => lambda { |car, cdr| Cons.new(car, cdr) }
   }
 
@@ -56,31 +52,31 @@ module Lemur
       Lambda.new(env, forms, params, *code)
     },
     :and => lambda { |env, forms, *code|
-      code.inject(TRUE) { |result, c|
-        (result != FALSE) ? c.lispeval(env, forms) : FALSE
+      code.inject(true) { |result, c|
+        (result != false) ? c.lispeval(env, forms) : false
       }
     },
     :or => lambda { |env, forms, *code| 
-      code.inject(FALSE) { |result, c|
-        (result == FALSE) ? c.lispeval(env, forms) : result
+      code.inject(false) { |result, c|
+        (result != true) ? c.lispeval(env, forms) : result
       }
     },
     :if => lambda { |env, forms, cond, *code|
       raise "Too many clause in if" if code.length > 2
       xthen, xelse = *code
-      if cond.lispeval(env, forms) != FALSE
+      if cond.lispeval(env, forms)
         xthen.lispeval(env, forms)
       else
-        xelse.nil? ? FALSE : xelse.lispeval(env, forms)
+        xelse.nil? ? false : xelse.lispeval(env, forms)
       end
     },
     :cond => lambda { |env, forms, *code|
-      passed = FALSE
-      result = FALSE
+      passed = false
+      result = false
       
       code.each do |c|
-        if passed == FALSE && c.car.lispeval(env, forms) != FALSE
-          passed = TRUE
+        if passed == false && c.car.lispeval(env, forms) != false
+          passed = true
           result = c.cdr.car.lispeval(env, forms)
         end
       end
@@ -90,8 +86,8 @@ module Lemur
     :defmacro => lambda { |env, forms, name, exp|
       func = exp.lispeval(env, forms)
       forms.define(name, lambda { |env2, forms2, *rest| 
-        func.call(*rest).lispeval(env, forms)
-      })
+                     func.call(*rest).lispeval(env, forms)
+                   })
       name
     },
     :ruby => lambda { |env, forms, *names| 
@@ -119,12 +115,18 @@ module Lemur
 
     def conslist?
       false
-    end    
+    end
+
+    alias :to_scm :to_sexp
   end
   
   module ArrayExtensions
     def consify
       map { |x| x.consify }.reverse.inject(:nil) { |cdr, car| Cons.new(car, cdr) }
+    end
+
+    def to_scm
+      '(' + map { |x| x.to_scm }.join(' ') + ')'
     end
   end
   
@@ -144,17 +146,21 @@ module Lemur
     def conslist?
       self == :nil
     end
+
+    def to_scm
+      self.to_s
+    end
   end
   
   module TrueExtensions
-    def consify
-      TRUE
+    def to_scm
+      TRUE_SYM
     end
   end
   
   module FalseExtensions
-    def consify
-      FALSE
+    def to_scm
+      FALSE_SYM
     end
   end
 end

@@ -22,7 +22,7 @@ module Lemur
         line = Readline::readline('> ')
         Readline::HISTORY.push(line)
         begin
-          puts self.eval(line).to_sexp
+          puts self.eval(line).to_scm
         rescue StandardError => e
           puts "ERROR: #{e}"
         end

@@ -1,6 +1,8 @@
 module Lemur
   class Cons
     attr_reader :car, :cdr
+    alias :first :car
+    alias :rest :cdr
 
     def self.from_a(array)
       array.consify
@@ -8,6 +10,10 @@ module Lemur
 
     def initialize(car, cdr)
       @car, @cdr = car, cdr
+    end
+
+    def empty?
+      @car.nil? and @cdr.nil?
     end
 
     def lispeval(env, forms)
@@ -27,14 +33,14 @@ module Lemur
     end
 
     def conslist?
-      cdr.conslist?
+      self.empty? or cdr.conslist?
     end
     
-    def to_sexp
+    def to_scm
       if conslist?
-        "(#{arrayify.map {|x| x.to_sexp}.join(' ')})"
+        "(#{arrayify.map {|x| x.to_scm}.join(' ')})"
       else
-        "(cons #{car.to_sexp} #{cdr.to_sexp})"
+        "(cons #{car.to_scm} #{cdr.to_scm})"
       end
     end
   end

@@ -9,6 +9,7 @@ module Lemur
     Float = number.map { |x| x.to_f }
     Number = longest(Integer, Float)
     Special = Regexp.escape '+-*/=<>?!@#$%^&:~'
+    Boolean = regexp(/\#[tf]/).map { |x| x == "#t" }
     Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x| x.to_sym }
     Escape = (string('\\') >> any)
     Quote = string('"')
@@ -18,7 +19,7 @@ module Lemur
     }
     Quoted = char("'") >> lazy { Value }.map { |value| [:quote, value] }
     List = char('(') >> lazy { Values } << char(')')
-    Value = alt(Quoted, List, String, Number, Symbol)
+    Value = alt(Quoted, List, Number, Boolean, Symbol, String)
     Values = Value.lexeme(whitespaces | comment_line(';'))
     
     Parser = Values << eof

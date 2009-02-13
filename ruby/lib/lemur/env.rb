@@ -15,7 +15,11 @@ module Lemur
 
     def lookup(symbol)
       begin
-        return (@defs[symbol] || @parent.lookup(symbol))
+        if @defs.has_key?(symbol)
+          return @defs[symbol]
+        else
+          return @parent.lookup(symbol)
+        end
       rescue NoMethodError
         raise "No value for symbol #{symbol}"
       end

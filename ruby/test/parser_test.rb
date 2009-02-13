@@ -23,6 +23,11 @@ class ParserTest < Test::Unit::TestCase
     assert 37.eql?(Number.parse("37"))
     assert 2.5.eql?(Number.parse("2.5"))
   end
+
+  should "parse booleans" do
+    assert_equal true, Boolean.parse('#t')
+    assert_equal false, Boolean.parse('#f')
+  end
   
   should "parse symbols" do
     assert_equal :hello, Symbol.parse('hello')
@@ -48,7 +53,7 @@ class ParserTest < Test::Unit::TestCase
   end
   
   should "parse lists" do
-    assert_equal [:+, :foo, 2], List.parse('(+ foo 2)')
+    assert_equal [:eq?, :foo, true], List.parse('(eq? foo #t)')
   end
   
   should "parse nested lists" do
@@ -73,7 +78,7 @@ class ParserTest < Test::Unit::TestCase
   end
   
   should "parse s-expressions" do
-    assert_equal [[:+, [:max, 2, 3], 7]], Parser.parse('(+ (max 2 3) 7)')
+    assert_equal [[:or, [:+, [:max, 2, 3], 7], false]], Parser.parse('(or (+ (max 2 3) 7) #f)')
   end
   
   should "parse s-expressions with comments" do
