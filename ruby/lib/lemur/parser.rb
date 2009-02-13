@@ -4,7 +4,6 @@ require 'rparsec'
 module Lemur
   module Parser
     extend RParsec::Parsers
-    extend RParsec::Functors
         
     Integer = integer.map { |x| x.to_i }
     Float = number.map { |x| x.to_f }
