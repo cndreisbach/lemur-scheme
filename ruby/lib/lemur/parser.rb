@@ -17,8 +17,9 @@ module Lemur
     String = (Quote >> (Escape|NotQuote).many << Quote).map { |charseq|
       charseq.map { |charnum| charnum.chr }.to_s
     }
+    Quoted = char("'") >> lazy { Value }.map { |value| [:quote, value] }
     List = char('(') >> lazy { Values } << char(')')
-    Value = alt(List, String, Number, Symbol)
+    Value = alt(Quoted, List, String, Number, Symbol)
     Values = Value.lexeme(whitespaces | comment_line(';'))
     
     Parser = Values << eof

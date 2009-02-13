@@ -64,6 +64,13 @@ class ParserTest < Test::Unit::TestCase
     assert_equal "hello world", String.parse('"hello world"')
     assert_equal '"', String.parse('"\""')
   end
+
+  should "parsed quoted stuff" do
+    assert_equal [:quote, :foo], Quoted.parse("'foo")
+    assert_equal [:quote, [:foo, 1, 2]], Quoted.parse("'(foo 1 2)")
+    assert_equal [:quote, [:foo, [:quote, 1], 2]], Quoted.parse("'(foo '1 2)")
+    assert_equal [:quote, [:quote, [:foo, 1, 2]]], Quoted.parse("''(foo 1 2)")
+  end
   
   should "parse s-expressions" do
     assert_equal [[:+, [:max, 2, 3], 7]], Parser.parse('(+ (max 2 3) 7)')
@@ -76,6 +83,6 @@ class ParserTest < Test::Unit::TestCase
        2 ; the number two
       ) ; close s-expression
     }.strip)
-  end
-  
+  end  
 end
+
