@@ -1,11 +1,9 @@
+- macros / define-syntax
 - char?
 - vector?
 - port?
 - full numeric tower
-- quasiquotes and unquote
 - redo parser in Scala
-- macros / define-syntax
-
 
 terms
 -----

@@ -76,9 +76,21 @@ class ParserTest < Test::Unit::TestCase
     assert_equal [:quote, [:foo, [:quote, 1], 2]], Quoted.parse("'(foo '1 2)")
     assert_equal [:quote, [:quote, [:foo, 1, 2]]], Quoted.parse("''(foo 1 2)")
   end
+
+  should "parse quasi-quoted stuff" do
+    assert_equal [:quasiquote, :foo], Quasiquoted.parse("`foo")
+    assert_equal [:quasiquote, [:foo, 1, 2]], Quasiquoted.parse("`(foo 1 2)")
+  end
+
+  should "parse unquoted stuff" do
+    assert_equal [:unquote, :foo], Unquoted.parse(",foo")
+    assert_equal [:unquote, [:foo, 1, 2]], Unquoted.parse(",(foo 1 2)")
+  end
   
   should "parse s-expressions" do
     assert_equal [[:or, [:+, [:max, 2, 3], 7], false]], Parser.parse('(or (+ (max 2 3) 7) #f)')
+    assert_equal [[:or, [:quote, [1, 2]], [:quasiquote, [1, [:unquote, [:a, :b]]]]]],
+      Parser.parse("(or '(1 2) `(1 ,(a b)))")
   end
   
   should "parse s-expressions with comments" do

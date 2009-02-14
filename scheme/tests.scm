@@ -71,3 +71,9 @@
   (cond (#f 1)
         (else 2)
     ))
+
+(assert "quasiquote and unquote should work"
+  (begin
+    (define x 23)
+    (eq? (quote (+ (* 2 23) 1)) (quasiquote (+ (* 2 (unquote x)) 1)))
+  ))

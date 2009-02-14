@@ -24,8 +24,8 @@ module Lemur
     :- => lambda { |*args| args.inject { |x, y| x - y } },
     :* => lambda { |*args| args.inject { |x, y| x * y } },
     :"/" => lambda { |*args| args.inject { |x, y| x / y } },
-    :atom? => lambda { |x| !x.kind_of?(Cons) },
-    :eq? => lambda { |x, y| x.equal?(y) },
+    :atom? => lambda { |x| x.atom? },
+    :eq? => lambda { |x, y| x.eql?(y) },
     :list => lambda { |*args| Cons.from_a(args) },
     :print => lambda { |*args| puts *args.map { |a| a.to_scm } },
     :cons => lambda { |car, cdr| Cons.new(car, cdr) }
@@ -49,6 +49,18 @@ module Lemur
       code.map { |c| c.lispeval(env, forms) }.map { |c| c.lispeval(env, forms) }.last
     },
     :quote => lambda { |env, forms, exp| exp },
+    :unquote => lambda { |env, forms, exp| exp.lispeval(env, forms) },
+    :quasiquote => lambda { |env, forms, exp|
+      if exp.atom?
+        exp
+      else
+        if exp.car == :unquote
+          FORMS[:unquote][env, forms, exp]  
+        else
+          exp.to_array.map { |elem| FORMS[:quasiquote][env, forms, elem] }.to_list
+        end
+      end
+    },
     :lambda => lambda { |env, forms, params, *code|
       Lambda.new(env, forms, params, *code)
     },
@@ -117,6 +129,14 @@ module Lemur
     def list?
       false
     end
+    
+    def pair?
+      false
+    end
+    
+    def atom?
+      !pair?
+    end
 
     alias :to_scm :to_sexp
   end
@@ -131,6 +151,10 @@ module Lemur
     end
     
     def list?
+      true
+    end
+    
+    def atom?
       true
     end
   end

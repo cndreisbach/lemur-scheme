@@ -11,6 +11,10 @@ module Lemur
     def initialize(car, cdr)
       @car, @cdr = car, cdr
     end
+    
+    def eql?(other)
+      (self.class == other.class) && car.eql?(other.car) && cdr.eql?(other.cdr)
+    end
 
     def lispeval(env, forms)
       if forms.respond_to?(:defined?) and forms.defined?(car)
@@ -26,6 +30,10 @@ module Lemur
       else
         self
       end
+    end
+
+    def pair?
+      true
     end
 
     def list?

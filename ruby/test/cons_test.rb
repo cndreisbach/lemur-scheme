@@ -10,6 +10,24 @@ class ConsTest < Test::Unit::TestCase
     end
   end
   
+  context "A cons" do
+    setup do
+      @cons = Cons.new(1, nil)
+    end
+    
+    should "be a pair" do
+      assert @cons.pair?
+    end
+    
+    should "be equal to an equivalent cons" do
+      assert @cons.eql?(Cons.new(1, nil))
+    end
+    
+    should "not be equal to non-equivalent cons" do
+      assert !@cons.eql?(Cons.new(2, nil))
+    end
+  end
+  
   context "A well-formed cons" do
     setup do
       @cons = Cons.new(:hello, Cons.new(:world, nil))
