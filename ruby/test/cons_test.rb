@@ -4,9 +4,9 @@ class ConsTest < Test::Unit::TestCase
   include Lemur
   
   context "The Cons class" do
-    should "be able to create a well-formed cons from an array" do
-      cons = Cons.from_a([:hello, :world])
-      assert cons.conslist?
+    should "be able to create a well-formed list from an array" do
+      list = Cons.from_a([:hello, :world])
+      assert list.list?
     end
   end
   
@@ -15,14 +15,14 @@ class ConsTest < Test::Unit::TestCase
       @cons = Cons.new(:hello, Cons.new(:world, nil))
     end
     
-    should "be a conslist" do
-      assert @cons.conslist?
+    should "be a list" do
+      assert @cons.list?
     end
     
     should "be a valid cdr" do
-      newcons = Cons.new(:foo, @cons)
-      assert_equal @cons, newcons.cdr
-      assert newcons.conslist?
+      newlist = Cons.new(:foo, @cons)
+      assert_equal @cons, newlist.cdr
+      assert newlist.list?
     end
     
     should "be able to become an array" do
@@ -39,8 +39,8 @@ class ConsTest < Test::Unit::TestCase
       @cons = Cons.new(:hello, :world)
     end
     
-    should "not be a conslist" do
-      assert !@cons.conslist?
+    should "not be a list" do
+      assert !@cons.list?
     end
     
     should "not be able to become an array" do

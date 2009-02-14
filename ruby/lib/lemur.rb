@@ -5,11 +5,10 @@ LEMUR_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
 
 require 'rubygems'
 require 'sexp'
-require 'lemur/cons'
-require 'lemur/env'
-require 'lemur/lambda'
-require 'lemur/parser'
-require 'lemur/interpreter'
+
+%w(cons env lambda parser interpreter).each do |lib|
+  require "lemur/#{lib}"
+end
 
 module Lemur
   
@@ -95,7 +94,7 @@ module Lemur
     %s[!] => lambda { |env, forms, object, message, *params|
       evaled_params = params.map { |p| p.lispeval(env, forms).arrayify }
       proc = evaled_params.last.kind_of?(Lambda) ? evaled_params.pop : nil
-      object.lispeval(env, forms).send(message, *evaled_params, &proc).consify
+      object.lispeval(env, forms).send(message, *evaled_params, &proc).to_list
     }
   }
   
@@ -108,11 +107,11 @@ module Lemur
       self
     end
     
-    def consify
+    def to_list
       self
     end
 
-    def conslist?
+    def list?
       false
     end
 
@@ -124,7 +123,7 @@ module Lemur
       []
     end
 
-    def conslist?
+    def list?
       true
     end
 
@@ -134,8 +133,8 @@ module Lemur
   end
   
   module ArrayExtensions
-    def consify
-      map { |x| x.consify }.reverse.inject(nil) { |cdr, car| Cons.new(car, cdr) }
+    def to_list
+      map { |x| x.to_list }.reverse.inject(nil) { |cdr, car| Cons.new(car, cdr) }
     end
 
     def to_scm

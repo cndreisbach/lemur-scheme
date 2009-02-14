@@ -5,7 +5,7 @@ module Lemur
     alias :rest :cdr
 
     def self.from_a(array)
-      array.consify
+      array.to_list
     end
 
     def initialize(car, cdr)
@@ -21,19 +21,19 @@ module Lemur
     end
 
     def arrayify
-      if conslist?
+      if list?
         [car] + cdr.arrayify
       else
         self
       end
     end
 
-    def conslist?
-      cdr.conslist?
+    def list?
+      cdr.list?
     end
     
     def to_scm
-      if conslist?
+      if list?
         "(#{arrayify.map {|x| x.to_scm}.join(' ')})"
       else
         "(cons #{car.to_scm} #{cdr.to_scm})"
