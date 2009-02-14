@@ -32,6 +32,9 @@ module Lemur
   }
 
   FORMS = {
+    :begin => lambda { |env, forms, *code| 
+      code.map { |c| c.lispeval(env, forms) }.last
+    },
     :define => lambda { |env, forms, sym, *values|
       if sym.is_a?(Cons)
         env.define(sym.car, Lambda.new(env, forms, sym.cdr, *values))

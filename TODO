@@ -4,5 +4,5 @@
 - full numeric tower
 - quasiquotes and unquote
 - redo parser in Scala
-- begin
 - change arrayify and consify to to_a and to_cons
+- macros / define-syntax
