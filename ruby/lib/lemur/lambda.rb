@@ -3,7 +3,7 @@ module Lemur
     def initialize(env, forms, params, *code)
       @env = env
       @forms = forms
-      @params = params.arrayify
+      @params = params.to_array
       @code = code
     end
     

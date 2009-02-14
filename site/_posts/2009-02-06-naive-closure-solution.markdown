@@ -30,7 +30,7 @@ module Lemur
       # was this: @env = env
       @env = env.copy
       @forms = forms
-      @params = params.arrayify
+      @params = params.to_array
       @code = code
     end
   end

@@ -14,15 +14,15 @@ module Lemur
 
     def lispeval(env, forms)
       if forms.respond_to?(:defined?) and forms.defined?(car)
-        forms.lookup(car).call(env, forms, *cdr.arrayify)
+        forms.lookup(car).call(env, forms, *cdr.to_array)
       else
-        car.lispeval(env, forms).call(*cdr.arrayify.map { |x| x.lispeval(env, forms) })
+        car.lispeval(env, forms).call(*cdr.to_array.map { |x| x.lispeval(env, forms) })
       end
     end
 
-    def arrayify
+    def to_array
       if list?
-        [car] + cdr.arrayify
+        [car] + cdr.to_array
       else
         self
       end
@@ -34,7 +34,7 @@ module Lemur
     
     def to_scm
       if list?
-        "(#{arrayify.map {|x| x.to_scm}.join(' ')})"
+        "(#{to_array.map {|x| x.to_scm}.join(' ')})"
       else
         "(cons #{car.to_scm} #{cdr.to_scm})"
       end

@@ -26,7 +26,7 @@ class ConsTest < Test::Unit::TestCase
     end
     
     should "be able to become an array" do
-      assert_equal [:hello, :world], @cons.arrayify
+      assert_equal [:hello, :world], @cons.to_array
     end
     
     should "represent itself as a sexp" do
@@ -44,7 +44,7 @@ class ConsTest < Test::Unit::TestCase
     end
     
     should "not be able to become an array" do
-      assert_not_equal [:hello, :world], @cons.arrayify
+      assert_not_equal [:hello, :world], @cons.to_array
     end
     
     should "be able to represent itself as a sexp" do

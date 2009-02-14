@@ -95,7 +95,7 @@ module Lemur
       names.inject(Kernel) { |mod, name| mod.const_get(name) }
     },
     %s[!] => lambda { |env, forms, object, message, *params|
-      evaled_params = params.map { |p| p.lispeval(env, forms).arrayify }
+      evaled_params = params.map { |p| p.lispeval(env, forms).to_array }
       proc = evaled_params.last.kind_of?(Lambda) ? evaled_params.pop : nil
       object.lispeval(env, forms).send(message, *evaled_params, &proc).to_list
     }
@@ -106,7 +106,7 @@ module Lemur
       self
     end
     
-    def arrayify
+    def to_array
       self
     end
     
@@ -122,16 +122,16 @@ module Lemur
   end
 
   module NilExtensions
-    def arrayify
+    def to_array
       []
-    end
-
-    def list?
-      true
     end
 
     def to_scm
       '()'
+    end
+    
+    def list?
+      true
     end
   end
   

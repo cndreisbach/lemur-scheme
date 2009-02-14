@@ -4,5 +4,12 @@
 - full numeric tower
 - quasiquotes and unquote
 - redo parser in Scala
-- change arrayify and consify to to_a and to_cons
 - macros / define-syntax
+
+
+terms
+-----
+- Ruby objects
+- AST
+- Scheme values
+- Scheme output
