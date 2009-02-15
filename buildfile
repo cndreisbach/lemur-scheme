@@ -26,10 +26,18 @@ define 'lemur' do
     
     desc "Run tests"
     task :test do
-      test_cmd = "#{project('lemur')._('ruby', 'lib', 'lemur')} #{_('tests.scm')}"
+      test_cmd = "#{project('lemur')._('ruby', 'lib', 'lemur.rb')} #{_('test','tests.scm')}"
       puts test_cmd
-      puts `#{project('lemur')._('ruby', 'lib', 'lemur.rb')} #{_('tests.scm')}`
+      puts `#{test_cmd}`
     end
+    
+    desc "Run R4RS compliance tests"
+    task :r4rs do
+      test_cmd = "#{project('lemur')._('ruby', 'lib', 'lemur.rb')} #{_('test','r4rs.scm')}"
+      puts test_cmd
+      puts `#{test_cmd}`
+    end
+    
   end
   
   desc "GitHub site"
