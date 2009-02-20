@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 $:.push(File.dirname(__FILE__))
-LEMUR_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+LEMUR_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 require 'rubygems'
 require 'sexp'
