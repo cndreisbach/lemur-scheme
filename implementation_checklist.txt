@@ -1,0 +1,51 @@
+1.3.2.
+  - errors need to be signaled
+  - "implementation restrictions" should be signaled
+
+2.1.
+  - identifiers are made of letters, digits, and extended alphabetic
+  characters
+  - identifiers cannot start with digits
+  - extended alphabetic characters are: ! $ % & * + - . / : < = > ? @
+  ^ _ ~
+
+2.2.
+  - whitespace characters are spaces and newlines
+  - whitespace breaks up tokens
+  - semicolons start comments, which continue until the end of the
+  line
+
+2.3.
+  - . + and - can be used in numbers
+  - . is used to denote pairs
+  - ... is an identifier
+  - () are used to make lists
+  - ' indicates literal data
+  - ` indicates almost-constant data
+  - , and ,@ are used with backquote
+  - " delimits strings
+  - \ is used as an escape inside strings
+  - [] {} and | are reserved
+  - #t and #f are the boolean constructs
+  - #\ denotes a character constant
+  - #() denotes a vector constant
+  - #e #i #b #o #d #x are used in the notation for numbers
+
+3.2.
+  - No object satisfies more than one of the following predicates:
+    - boolean?
+    - symbol?
+    - char?
+    - vector?
+    - procedure?
+    - pair?
+    - number?
+    - string?
+    - port?
+  - the above are the types in Scheme. There are further subtypes.
+
+3.3.
+  - Objects have external representations.
+  - `read` parses external representations
+  - `write` generates external representations
+  
