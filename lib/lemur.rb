@@ -12,7 +12,7 @@ end
 
 module Lemur
   
-  SCHEME_BUILTINS = File.join(LEMUR_HOME, 'scheme', 'builtins.scm')
+  SCHEME_BUILTINS = File.join(LEMUR_HOME, 'lib', 'builtins.scm')
   TRUE_SYM = '#t'.to_sym
   FALSE_SYM = '#f'.to_sym
 
