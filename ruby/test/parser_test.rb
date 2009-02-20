@@ -97,6 +97,9 @@ class ParserTest < Test::Unit::TestCase
     assert_equal [[:or, [:+, [:max, 2, 3], 7], false]], Parser.parse('(or (+ (max 2 3) 7) #f)')
     assert_equal [[:or, [:quote, [1, 2]], [:quasiquote, [1, [:unquote, [:a, :b]]]]]],
       Parser.parse("(or '(1 2) `(1 ,(a b)))")
+    assert_equal [[:or, [:quote, [1, 2]], [:quasiquote, [1, [[:unquote, :a], :b]]]]],
+      Parser.parse("(or '(1 2) `(1 (,a b)))")
+      
   end
   
   should "parse s-expressions with comments" do
