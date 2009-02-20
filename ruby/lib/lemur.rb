@@ -190,6 +190,12 @@ module Lemur
       FALSE_SYM
     end
   end
+  
+  module RationalExtensions
+    def to_scm
+      "%d/%d" % [numerator, denominator]
+    end
+  end
 end
 
 Object.send(:include, Lemur::ObjectExtensions)
@@ -198,6 +204,7 @@ Symbol.send(:include, Lemur::SymbolExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
 TrueClass.send(:include, Lemur::TrueExtensions)
 FalseClass.send(:include, Lemur::FalseExtensions)
+Rational.send(:include, Lemur::RationalExtensions)
 
 if $0 == __FILE__
   int = Lemur::Interpreter.new

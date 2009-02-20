@@ -19,9 +19,15 @@ class ParserTest < Test::Unit::TestCase
     end
   end
   
+  should "parse rationals" do
+    assert_equal Rational(3, 5), Fraction.parse('3/5')
+    assert_equal Rational(2), Fraction.parse('6/3')
+  end
+  
   should "parse numbers" do
     assert 37.eql?(Number.parse("37"))
     assert 2.5.eql?(Number.parse("2.5"))
+    assert Rational(5, 7).eql?(Number.parse("5/7"))
   end
 
   should "parse booleans" do

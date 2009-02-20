@@ -13,9 +13,12 @@ module Lemur
       char(char) >> lazy { Value }.map { |value| [symbol, value] }
     end
                 
+    Fraction = regexp(/\d+\/\d+/).map { |x|
+      Rational(*x.split("/").map { |x| x.to_i }) 
+    }
     Integer = integer.map { |x| x.to_i }
     Float = number.map { |x| x.to_f }
-    Number = longest(Integer, Float)
+    Number = longest(Fraction, Integer, Float)
     Special = Regexp.escape '+-*/=<>?!@#$%^&:~'
     Boolean = regexp(/\#[tf]/).map { |x| x == "#t" }
     Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x| x.to_sym }
