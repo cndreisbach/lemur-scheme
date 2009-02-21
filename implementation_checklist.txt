@@ -49,3 +49,12 @@
   - `read` parses external representations
   - `write` generates external representations
   
+3.5.
+  - proper tail recursion
+
+4.1.1
+  - variable references point to a value stored in a bound location
+  
+4.1.2
+  - (quote x) evaluates to x
+  - 'x is equivalent to (quote x)
