@@ -28,7 +28,7 @@ class ConsTest < Test::Unit::TestCase
     end
   end
   
-  context "A well-formed cons" do
+  context "A well formed cons" do
     setup do
       @cons = Cons.new(:hello, Cons.new(:world, nil))
     end

@@ -54,6 +54,12 @@ module Lemur
     end    
   end
 
+  module StringExtensions
+    def to_scm
+      inspect
+    end
+  end
+
   module ArrayExtensions
     def to_cons
       map { |x| x.to_cons }.reverse.inject(nil) { |cdr, car|
@@ -71,6 +77,7 @@ end
 Object.send(:include, Lemur::ObjectExtensions)
 NilClass.send(:include, Lemur::NilExtensions)
 Symbol.send(:include, Lemur::SymbolExtensions)
+String.send(:include, Lemur::StringExtensions)
 Array.send(:include, Lemur::ArrayExtensions)
 TrueClass.send(:include, Lemur::TrueExtensions)
 FalseClass.send(:include, Lemur::FalseExtensions)
