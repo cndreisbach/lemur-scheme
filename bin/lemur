@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../lib/lemur'
+
+int = Lemur::Interpreter.new
+if ARGV.empty?
+  int.repl
+else
+  ARGV.each do |file|
+    int.eval File.read(file)
+  end
+end
