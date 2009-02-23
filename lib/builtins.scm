@@ -1,6 +1,8 @@
+(define (cons car cdr) (! (ruby Lemur Cons) new car cdr))
 (define (car x) (! x car))
 (define (cdr y) (! y cdr))
 (define (not x) (eq? x #f))
+(define else #t)
 
 ;; predicates
 (define (boolean? x) (or (eq? x #t) (eq? x #f)))
@@ -8,6 +10,7 @@
 (define (symbol? x) (and (not (boolean? x)) (! x is_a? (ruby Symbol))))
 (define (string? x) (! x is_a? (ruby String)))
 (define (procedure? x) (! x respond_to? "call"))
+(define (atom? x) (! x atom?))
 (define (pair? x) (not (atom? x)))
 
 (define (quit) (! (ruby Kernel) exit))

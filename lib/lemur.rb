@@ -12,16 +12,13 @@ module Lemur
   SCHEME_BUILTINS = File.join(LEMUR_HOME, 'lib', 'builtins.scm')
 
   DEFAULTS = {
-    :else => true,
     :+ => lambda { |*args| args.inject { |x, y| x + y } },
     :- => lambda { |*args| args.inject { |x, y| x - y } },
     :* => lambda { |*args| args.inject { |x, y| x * y } },
     :"/" => lambda { |*args| args.inject { |x, y| x / y } },
-    :atom? => lambda { |x| x.atom? },
     :eq? => lambda { |x, y| x.eql?(y) },
     :list => lambda { |*args| Cons.from_a(args) },
-    :print => lambda { |*args| puts *args.map { |a| a.to_scm } },
-    :cons => lambda { |car, cdr| Cons.new(car, cdr) }
+    :print => lambda { |*args| puts *args.map { |a| a.to_scm } }
   }
 
   FORMS = {
