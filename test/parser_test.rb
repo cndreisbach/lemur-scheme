@@ -44,10 +44,6 @@ class ParserTest < Test::Unit::TestCase
     assert_raises(ParserException) { Symbol.parse '234' }
   end
 
-  should "be case-independent with symbols" do
-    assert_equal :helloworld, Symbol.parse('HelloWORLD')
-  end
-  
   should "parse values" do
     assert_equal :hello, Value.parse('hello')
     assert_equal 1.41, Value.parse('1.41')

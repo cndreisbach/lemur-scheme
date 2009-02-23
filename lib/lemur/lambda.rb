@@ -14,7 +14,7 @@ module Lemur
       @params.zip(args).each do |sym, value|
         localenv.define(sym, value)
       end
-      @code.map { |c| c.lispeval(localenv, localforms) }.last
+      @code.map { |c| c.scm_eval(localenv, localforms) }.last
     end
     
     def to_scm

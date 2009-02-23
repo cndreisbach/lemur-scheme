@@ -13,7 +13,7 @@ module Lemur
     
     def eval(string)
       Parser.parse(string).map do |exp|
-        exp.to_list.lispeval(@env, @forms)
+        exp.to_cons.scm_eval(@env, @forms)
       end.last
     end
     

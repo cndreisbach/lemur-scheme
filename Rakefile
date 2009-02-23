@@ -22,14 +22,14 @@ end
 namespace :scheme do
   desc "Run tests"
   task :test do
-    test_cmd = "lib/lemur.rb test/tests.scm"
+    test_cmd = "bin/lemur test/tests.scm"
     puts test_cmd
     puts `#{test_cmd}`
   end
   
   desc "Run R4RS compliance tests"
   task :r4rs do
-    test_cmd = "lib/lemur.rb test/r4rs.scm"
+    test_cmd = "bin/lemur test/r4rs.scm"
     puts test_cmd
     puts `#{test_cmd}`
   end  

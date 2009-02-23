@@ -5,7 +5,7 @@ module Lemur
     alias :rest :cdr
 
     def self.from_a(array)
-      array.to_list
+      array.to_cons
     end
 
     def initialize(car, cdr)
@@ -16,11 +16,11 @@ module Lemur
       (self.class == other.class) && car.eql?(other.car) && cdr.eql?(other.cdr)
     end
 
-    def lispeval(env, forms)
+    def scm_eval(env, forms)
       if forms.respond_to?(:defined?) and forms.defined?(car)
         forms.lookup(car).call(env, forms, *cdr.to_array)
       else
-        car.lispeval(env, forms).call(*cdr.to_array.map { |x| x.lispeval(env, forms) })
+        car.scm_eval(env, forms).call(*cdr.to_array.map { |x| x.scm_eval(env, forms) })
       end
     end
 
@@ -37,7 +37,7 @@ module Lemur
     end
 
     def list?
-      cdr.list?
+      cdr.respond_to?(:list?) && cdr.list?
     end
     
     def to_scm

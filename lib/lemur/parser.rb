@@ -13,10 +13,6 @@ module Lemur
       char(char) >> lazy { Value }.map { |value| [symbol, value] }
     end
 
-    def self.symbolize(str)
-      str.downcase.to_sym
-    end
-
     Integer = integer.map { |x| x.to_i }
     RealNumber = number.map { |x| x.to_f }
     RationalNumber = sequence(Integer, char('/'), Integer) { |numer, slash, denom|
@@ -28,7 +24,7 @@ module Lemur
     
     Special = Regexp.escape '+-*/=<>?!@#$%^&:~'
     Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x|
-      symbolize(x)
+      x.to_sym
     }
 
     Escape = (string('\\') >> any)
