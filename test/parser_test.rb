@@ -1,5 +1,4 @@
-require 'test_helper'
-require 'lemur/parser'
+require File.dirname(__FILE__) + '/test_helper'
 
 class ParserTest < Test::Unit::TestCase
   include Lemur::Parser

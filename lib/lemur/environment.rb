@@ -28,10 +28,6 @@ module Lemur
     def set!(symbol, value)
       puts "Warning: setting non-allocated #{symbol}" unless self.defined?(symbol)
       @defs[symbol] = value
-    end
-    
-    def merge(hash)   
-      @defs.merge!(hash)
-    end
+    end    
   end
 end

@@ -1,8 +1,6 @@
 module Lemur
   class Cons
     attr_reader :car, :cdr
-    alias :first :car
-    alias :rest :cdr
 
     def self.from_a(array)
       array.to_cons
