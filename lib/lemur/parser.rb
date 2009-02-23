@@ -12,16 +12,25 @@ module Lemur
     def self.modifier(char, symbol)
       char(char) >> lazy { Value }.map { |value| [symbol, value] }
     end
-                
-    Fraction = regexp(/\d+\/\d+/).map { |x|
-      Rational(*x.split("/").map { |x| x.to_i }) 
-    }
+
+    def self.symbolize(str)
+      str.downcase.to_sym
+    end
+
     Integer = integer.map { |x| x.to_i }
-    Float = number.map { |x| x.to_f }
-    Number = longest(Fraction, Integer, Float)
+    RealNumber = number.map { |x| x.to_f }
+    RationalNumber = sequence(Integer, char('/'), Integer) { |numer, slash, denom|
+      Rational(numer, denom)
+    }    
+    Number = longest(RationalNumber, Integer, RealNumber)
+
+    Boolean = regexp(/\#[tf]/).map { |x| x != "#f" }
+    
     Special = Regexp.escape '+-*/=<>?!@#$%^&:~'
-    Boolean = regexp(/\#[tf]/).map { |x| x == "#t" }
-    Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x| x.to_sym }
+    Symbol = regexp(/[\w#{Special}]*[A-Za-z#{Special}][\w#{Special}]*/).map { |x|
+      symbolize(x)
+    }
+
     Escape = (string('\\') >> any)
     Quote = string('"')
     NotQuote = not_string('"')
@@ -32,11 +41,12 @@ module Lemur
     Quoted = modifier("'", :quote)
     Quasiquoted = modifier("`", :quasiquote)
     Unquoted = modifier(",", :unquote)
-    
+
+    EmptyList = (char('(') >> whitespace.many << char(')')).map { |x| nil }
     List = char('(') >> lazy { Values } << char(')')
-    Value = alt(Quoted, Quasiquoted, Unquoted, List, Number, Boolean, Symbol, String)
-    Values = Value.lexeme(whitespaces | comment_line(';'))
     
+    Value = alt(Quoted, Quasiquoted, Unquoted, EmptyList, List, Number, Boolean, Symbol, String)
+    Values = Value.lexeme(whitespaces | comment_line(';'))
     Parser = Values << eof
   end
 end

@@ -12,16 +12,16 @@ class ParserTest < Test::Unit::TestCase
     end
   end
   
-  should "parse floats" do
-    assert_equal 3.14, Float.parse("3.14")
+  should "parse real numbers" do
+    assert_equal 3.14, RealNumber.parse("3.14")
     assert_raises(ParserException) do
-      Float.parse('pi')
+      RealNumber.parse('pi')
     end
   end
   
   should "parse rationals" do
-    assert_equal Rational(3, 5), Fraction.parse('3/5')
-    assert_equal Rational(2), Fraction.parse('6/3')
+    assert_equal Rational(3, 5), RationalNumber.parse('3/5')
+    assert_equal Rational(2), RationalNumber.parse('6/3')
   end
   
   should "parse numbers" do
@@ -43,6 +43,10 @@ class ParserTest < Test::Unit::TestCase
     assert_equal %s[2wice], Symbol.parse('2wice')
     assert_raises(ParserException) { Symbol.parse '234' }
   end
+
+  should "be case-independent with symbols" do
+    assert_equal :helloworld, Symbol.parse('HelloWORLD')
+  end
   
   should "parse values" do
     assert_equal :hello, Value.parse('hello')
@@ -55,7 +59,7 @@ class ParserTest < Test::Unit::TestCase
   end
   
   should "parse an empty list" do
-    assert_equal [], List.parse('()')
+    assert_equal nil, EmptyList.parse('()')
   end
   
   should "parse lists" do
@@ -63,7 +67,7 @@ class ParserTest < Test::Unit::TestCase
   end
   
   should "parse nested lists" do
-    assert_equal([:foo, [:bar, :baz, [1, 2], []], 3, [4, 5]],
+    assert_equal([:foo, [:bar, :baz, [1, 2], nil], 3, [4, 5]],
       List.parse('(foo (bar baz (1 2) ()) 3 (4 5))'))
   end
   
