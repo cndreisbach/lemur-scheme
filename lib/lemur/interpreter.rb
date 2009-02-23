@@ -5,8 +5,8 @@ module Lemur
     include Lemur
     
     def initialize(defaults = DEFAULTS, forms = FORMS)
-      @env = Env.new(nil, defaults.clone)
-      @forms = Env.new(nil, forms.clone)
+      @env = Environment.new(nil, defaults.clone)
+      @forms = Environment.new(nil, forms.clone)
       
       self.eval(File.read(SCHEME_BUILTINS))
     end

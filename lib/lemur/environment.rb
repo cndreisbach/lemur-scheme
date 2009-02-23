@@ -1,5 +1,5 @@
 module Lemur
-  class Env
+  class Environment
     def initialize(parent=nil, defaults={})
       @parent = parent
       @defs = defaults

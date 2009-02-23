@@ -6,7 +6,7 @@ LEMUR_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require 'rubygems'
 require 'sexp'
 
-%w(cons env lambda parser interpreter).each do |lib|
+%w(cons environment lambda parser interpreter).each do |lib|
   require "lemur/#{lib}"
 end
 

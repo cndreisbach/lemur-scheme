@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class EnvTest < Test::Unit::TestCase
+class EnvironmentTest < Test::Unit::TestCase
   include Lemur
   
-  context "an Env" do
+  context "an Environment" do
     setup do
-      @env = Env.new
+      @env = Environment.new
     end
     
     should "be able to define symbols" do
@@ -26,7 +26,7 @@ class EnvTest < Test::Unit::TestCase
         
     context "with a parent" do
       setup do
-        @child = Env.new(@env)
+        @child = Environment.new(@env)
       end
       
       should "be able to lookup a symbol in its parent" do
