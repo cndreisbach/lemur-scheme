@@ -10,12 +10,8 @@ end
 module Lemur
   
   SCHEME_BUILTINS = File.join(LEMUR_HOME, 'lib', 'builtins.scm')
-  TRUE_SYM = '#t'.to_sym
-  FALSE_SYM = '#f'.to_sym
 
   DEFAULTS = {
-    FALSE_SYM => false,
-    TRUE_SYM => false,
     :else => true,
     :+ => lambda { |*args| args.inject { |x, y| x + y } },
     :- => lambda { |*args| args.inject { |x, y| x - y } },
