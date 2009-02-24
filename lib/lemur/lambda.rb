@@ -9,8 +9,8 @@ module Lemur
     
     def call(*args)
       raise "Expected #{@params.size} arguments" unless args.size == @params.size
-      localenv = Environment.new(@env)
-      localforms = Environment.new(@forms)
+      localenv = Scope.new(@env)
+      localforms = Scope.new(@forms)
       @params.zip(args).each do |sym, value|
         localenv.define(sym, value)
       end

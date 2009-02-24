@@ -3,7 +3,14 @@ LEMUR_HOME = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 require 'rubygems'
 
-%w(object_extensions cons environment lambda parser interpreter repl).each do |lib|
+[ :object_extensions,
+  :cons,
+  :scope,
+  :environment,
+  :lambda,
+  :parser,
+  :interpreter,
+  :repl ].each do |lib|
   require "lemur/#{lib}"
 end
 
