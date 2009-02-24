@@ -1,13 +1,5 @@
-- macros / define-syntax
-- char?
-- vector?
-- port?
-- full numeric tower
-- redo parser in Scala
-
-terms
------
-- Ruby objects
-- AST
-- Scheme values
-- Scheme output
+- create separate root environment and scope (frame?) classes
+- scope inherits from Hash
+- forms (syntax) should go in same environment as everything else
+- remove built-ins from main lemur.rb and put in root env
+- let
