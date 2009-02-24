@@ -34,7 +34,14 @@ class ScopeTest < Test::Unit::TestCase
         
         assert @child.defined?(:a)
         assert_equal 1, @child.lookup(:a)
-      end        
+      end
+
+      should "redefine symbols where they are found" do
+        @scope.define(:a, 1)
+        @child.set!(:a, 2)
+
+        assert_equal 2, @scope[:a]
+      end
     end
   end
 end

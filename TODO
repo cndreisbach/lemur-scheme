@@ -1,5 +1,3 @@
-- fix scope so that redefines to variables in a higher scope define in
-   that scope
 - forms (syntax) should go in same environment as everything else
 - remove built-ins from main lemur.rb and put in root env
 - let
