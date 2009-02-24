@@ -12,21 +12,9 @@ module Lemur
     end
     
     def eval(string)
-      Parser.parse(string).map do |exp|
-        exp.to_cons.scm_eval(@env, @forms)
-      end.last
+      Parser.parse(string).map { |exp|
+        exp.to_cons.scm_eval(@env, @forms) }.last
     end
-    
-    def repl
-      loop do
-        line = Readline::readline('> ')
-        Readline::HISTORY.push(line)
-        begin
-          puts self.eval(line).to_scm
-        rescue StandardError => e
-          puts "ERROR: #{e}"
-        end
-      end
-    end    
+        
   end
 end

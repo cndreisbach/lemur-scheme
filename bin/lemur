@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../lib/lemur'
 
 int = Lemur::Interpreter.new
 if ARGV.empty?
-  int.repl
+  Lemur::Repl.new(int).run
 else
   ARGV.each do |file|
     int.eval File.read(file)
