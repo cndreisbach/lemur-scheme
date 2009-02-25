@@ -21,5 +21,4 @@
 (define (assert msg b) (if (not b) (reporterr msg) (reportmsg "PASS")))
 (define (asserteq msg a b) (assert msg (eq? a b)))
 
-(defmacro let1 (lambda (binding body) (list (list 'lambda (list (car binding)) body) (car (cdr binding)))))
 

@@ -13,8 +13,6 @@ module Lemur
       end
     end
 
-    # TODO give the ability to alter non-shadowed objects in their
-    # home scope
     def set!(symbol, value)
       puts "Warning: setting non-allocated #{symbol}" unless self.defined?(symbol)
       define(symbol, value)
