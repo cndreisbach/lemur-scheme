@@ -1,4 +1,2 @@
-- remove built-ins from main lemur.rb and put in root env
-- let
 - set of Lemur-specific exceptions 
 - make forms lexical again; should evaluate like lambdas

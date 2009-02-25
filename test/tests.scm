@@ -77,3 +77,19 @@
     (define x 23)
     (eq? (quote (+ (* 2 23) 1)) (quasiquote (+ (* 2 (unquote x)) 1)))
   ))
+  
+(assert "let should work"
+  (begin
+    (define x 1)
+    (define y 2)
+    (let ((x 2) (y 23))
+      (eq? 25 (+ x y))
+    )))
+    
+(assert "nested lets should work"
+  (begin
+    (define x 2)
+    (let ((y 7) (z 19))
+      (let ((x 3) (y 77) (a 1))
+        (eq? 100 (+ a x y z))
+      ))))

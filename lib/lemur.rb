@@ -32,6 +32,13 @@ module Lemur
     :set! => lambda { |env, sym, value| 
       env.set!(sym, value.scm_eval(env))
     },
+    :let => lambda { |env, assignments, *code|
+      scope = Scope.new(env)
+      assignments.to_array.each { |assignment| 
+        FORMS[:define][scope, *assignment.to_array]
+      }
+      FORMS[:begin][scope, *code]
+    },
     :eval => lambda { |env, *code| 
       code.map { |c| c.scm_eval(env) }.map { |c| c.scm_eval(env) }.last
     },
