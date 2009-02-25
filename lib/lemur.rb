@@ -29,86 +29,86 @@ module Lemur
   }
 
   FORMS = {
-    :begin => lambda { |env, forms, *code| 
-      code.map { |c| c.scm_eval(env, forms) }.last
+    :begin => lambda { |env, *code| 
+      code.map { |c| c.scm_eval(env) }.last
     },
-    :define => lambda { |env, forms, sym, *values|
+    :define => lambda { |env, sym, *values|
       if sym.is_a?(Cons)
-        env.define(sym.car, Lambda.new(env, forms, sym.cdr, *values))
+        env.define(sym.car, Lambda.new(env, sym.cdr, *values))
       else
-        env.define(sym, values.map { |v| v.scm_eval(env, forms) }.last)
+        env.define(sym, values.map { |v| v.scm_eval(env) }.last)
       end
     },    
-    :set! => lambda { |env, forms, sym, value| 
-      env.set!(sym, value.scm_eval(env, forms))
+    :set! => lambda { |env, sym, value| 
+      env.set!(sym, value.scm_eval(env))
     },
-    :eval => lambda { |env, forms, *code| 
-      code.map { |c| c.scm_eval(env, forms) }.map { |c| c.scm_eval(env, forms) }.last
+    :eval => lambda { |env, *code| 
+      code.map { |c| c.scm_eval(env) }.map { |c| c.scm_eval(env) }.last
     },
-    :quote => lambda { |env, forms, exp| exp },
-    :unquote => lambda { |env, forms, exp| exp.scm_eval(env, forms) },
-    :quasiquote => lambda { |env, forms, exp|
+    :quote => lambda { |env, exp| exp },
+    :unquote => lambda { |env, exp| exp.scm_eval(env) },
+    :quasiquote => lambda { |env, exp|
       if exp.atom?
         exp
       else
         if exp.car == :unquote
-          FORMS[:unquote][env, forms, exp]  
+          FORMS[:unquote][env, exp]  
         else
-          exp.to_array.map { |elem| FORMS[:quasiquote][env, forms, elem] }.to_cons
+          exp.to_array.map { |elem| FORMS[:quasiquote][env, elem] }.to_cons
         end
       end
     },
-    :lambda => lambda { |env, forms, params, *code|
-      Lambda.new(env, forms, params, *code)
+    :lambda => lambda { |env, params, *code|
+      Lambda.new(env, params, *code)
     },
-    :and => lambda { |env, forms, *code|
+    :and => lambda { |env, *code|
       code.inject(true) { |result, c|
-        (result != false) ? c.scm_eval(env, forms) : false
+        (result != false) ? c.scm_eval(env) : false
       }
     },
-    :or => lambda { |env, forms, *code| 
+    :or => lambda { |env, *code| 
       code.inject(false) { |result, c|
-        (result != true) ? c.scm_eval(env, forms) : result
+        (result != true) ? c.scm_eval(env) : result
       }
     },
-    :if => lambda { |env, forms, cond, *code|
+    :if => lambda { |env, cond, *code|
       raise "Too many clause in if" if code.length > 2
       xthen, xelse = *code
-      if cond.scm_eval(env, forms)
-        xthen.scm_eval(env, forms)
+      if cond.scm_eval(env)
+        xthen.scm_eval(env)
       else
-        xelse.nil? ? false : xelse.scm_eval(env, forms)
+        xelse.nil? ? false : xelse.scm_eval(env)
       end
     },
-    :cond => lambda { |env, forms, *code|
+    :cond => lambda { |env, *code|
       passed = false
       result = false
       
       code.each do |c|
-        if passed == false && c.car.scm_eval(env, forms) != false
+        if passed == false && c.car.scm_eval(env) != false
           passed = true
-          result = c.cdr.car.scm_eval(env, forms)
+          result = c.cdr.car.scm_eval(env)
         end
       end
       
       result
     },
-    :defmacro => lambda { |env, forms, name, exp|
-      func = exp.scm_eval(env, forms)
-      forms.define(name, lambda { |env2, forms2, *rest| 
-                     func.call(*rest).scm_eval(env, forms)
-                   })
+    :defmacro => lambda { |env, name, exp|
+      func = exp.scm_eval(env)
+      FORMS[name] = lambda { |env2, *rest| 
+                     func.call(*rest).scm_eval(env)
+                   }
       name
     },
-    :ruby => lambda { |env, forms, *names| 
+    :ruby => lambda { |env, *names| 
       names.inject(Kernel) { |mod, name| mod.const_get(name) }
     },
-    %s[!] => lambda { |env, forms, object, message, *params|
+    %s[!] => lambda { |env, object, message, *params|
       evaled_params = params.map { |p|
-        p.scm_eval(env, forms).to_array
+        p.scm_eval(env).to_array
       }
       proc = evaled_params.last.kind_of?(Lambda) ? evaled_params.pop : nil
-      object.scm_eval(env, forms).send(message, *evaled_params, &proc).to_cons
+      object.scm_eval(env).send(message, *evaled_params, &proc).to_cons
     }
   }
     

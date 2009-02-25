@@ -12,7 +12,7 @@ class LemurTest < Test::Unit::TestCase
 
     should "return themselves by default when evaluated" do
       object = Object.new
-      assert object.equal?(object.scm_eval(nil, nil))
+      assert object.equal?(object.scm_eval(nil))
     end
   end
 

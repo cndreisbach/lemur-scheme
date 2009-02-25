@@ -8,7 +8,7 @@ module Lemur
       !pair?
     end
 
-    def scm_eval(env, forms)
+    def scm_eval(env)
       self
     end
 
@@ -49,7 +49,7 @@ module Lemur
   end
 
   module SymbolExtensions
-    def scm_eval(env, forms)
+    def scm_eval(env)
       env.lookup(self)
     end    
   end

@@ -12,12 +12,5 @@ class LemurTest < Test::Unit::TestCase
       assert_equal 6, @int.eval('(eval (quote (+ 1 2 3)))')
       assert_equal 10, @int.eval('(eval (quote (+ 1 2 3 4)))')
     end
-    
-    should "have lexical macros" do
-      @int.eval "(define a (lambda () (defmacro myquote (lambda (thing) (list (quote quote) thing))) (myquote b)))"
-      assert_raises(RuntimeError) { @int.eval "(myquote b)" }
-      @int.eval "(a)"
-      assert_raises(RuntimeError) { @int.eval "(myquote b)" }
-    end
   end
 end

@@ -14,11 +14,11 @@ module Lemur
       (self.class == other.class) && car.eql?(other.car) && cdr.eql?(other.cdr)
     end
 
-    def scm_eval(env, forms)
-      if forms.respond_to?(:defined?) and forms.defined?(car)
-        forms.lookup(car).call(env, forms, *cdr.to_array)
+    def scm_eval(env)
+      if FORMS.has_key?(car)
+        FORMS[car].call(env, *cdr.to_array)
       else
-        car.scm_eval(env, forms).call(*cdr.to_array.map { |x| x.scm_eval(env, forms) })
+        car.scm_eval(env).call(*cdr.to_array.map { |x| x.scm_eval(env) })
       end
     end
 

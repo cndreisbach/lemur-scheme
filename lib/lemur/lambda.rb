@@ -1,8 +1,7 @@
 module Lemur
   class Lambda
-    def initialize(env, forms, params, *code)
+    def initialize(env, params, *code)
       @env = env
-      @forms = forms
       @params = params.to_array
       @code = code
     end
@@ -10,11 +9,10 @@ module Lemur
     def call(*args)
       raise "Expected #{@params.size} arguments" unless args.size == @params.size
       localenv = Scope.new(@env)
-      localforms = Scope.new(@forms)
       @params.zip(args).each do |sym, value|
         localenv.define(sym, value)
       end
-      @code.map { |c| c.scm_eval(localenv, localforms) }.last
+      @code.map { |c| c.scm_eval(localenv) }.last
     end
     
     def to_scm
