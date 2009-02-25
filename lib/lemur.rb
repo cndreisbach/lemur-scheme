@@ -18,16 +18,6 @@ module Lemur
   
   SCHEME_BUILTINS = File.join(LEMUR_HOME, 'lib', 'builtins.scm')
 
-  DEFAULTS = {
-    :+ => lambda { |*args| args.inject { |x, y| x + y } },
-    :- => lambda { |*args| args.inject { |x, y| x - y } },
-    :* => lambda { |*args| args.inject { |x, y| x * y } },
-    :"/" => lambda { |*args| args.inject { |x, y| x / y } },
-    :eq? => lambda { |x, y| x.eql?(y) },
-    :list => lambda { |*args| Cons.from_a(args) },
-    :print => lambda { |*args| puts *args.map { |a| a.to_scm } }
-  }
-
   FORMS = {
     :begin => lambda { |env, *code| 
       code.map { |c| c.scm_eval(env) }.last
