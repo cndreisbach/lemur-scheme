@@ -7,12 +7,16 @@ module Lemur
     end
     
     def call(*args)
-      raise "Expected #{@params.size} arguments" unless args.size == @params.size
-      localenv = Scope.new(@env)
-      @params.zip(args).each do |sym, value|
-        localenv.define(sym, value)
+      scope = Scope.new(@env)
+      if @params.respond_to?(:size)
+        raise "Expected #{@params.size} arguments" unless args.size == @params.size
+        @params.zip(args).each do |sym, value|
+          scope.define(sym, value)
+        end
+      else
+        scope.define(@params, args.to_cons)
       end
-      @code.map { |c| c.scm_eval(localenv) }.last
+      @code.map { |c| c.scm_eval(scope) }.last
     end
     
     def to_scm
