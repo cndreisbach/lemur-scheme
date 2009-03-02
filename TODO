@@ -1,2 +1,3 @@
+- lambdas can take infinite arguments with (lambda foo (...)) syntax
 - set of Lemur-specific exceptions 
 - make forms lexical again; should evaluate like lambdas
