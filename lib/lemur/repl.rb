@@ -8,12 +8,13 @@ module Lemur
       puts "; Welcome to the Lemur Scheme REPL!"
       puts "; Enter your expressions below, and they will be evaluated."
       puts "; Expression results will appear as comments.\n\n"
-      line = ''
+      exp = ''
       loop do
-        line += Readline::readline('')
+        line = Readline::readline('')
         Readline::HISTORY.push(line)
+        exp += line
         begin
-          puts "; #{@interpreter.eval(line).to_scm}\n\n"
+          puts "; #{@interpreter.eval(exp).to_scm}\n\n"
         rescue RParsec::ParserException => e
           if e.to_s =~ /^'\)' expected/
             line += " "
@@ -24,7 +25,7 @@ module Lemur
         rescue StandardError => e
           puts "; ERROR: #{e}\n\n"
         end
-        line = ''
+        exp = ''
       end
     end     
   end
