@@ -93,3 +93,10 @@
       (let ((x 3) (y 77) (a 1))
         (eq? 100 (+ a x y z))
       ))))
+      
+(assert "multi-value lambdas should work"
+  (begin
+    (define sum (lambda values
+      (reduce + values)))
+    (eq? 10 (sum 1 2 3 4))
+))

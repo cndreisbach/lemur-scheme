@@ -7,6 +7,7 @@ module Lemur
     def initialize
       @env = Environment.new      
       self.eval(File.read(SCHEME_BUILTINS))
+      self.eval(File.read(File.join(LEMUR_HOME, 'lib', 'little-schemer.scm')))
     end
     
     def eval(string)
