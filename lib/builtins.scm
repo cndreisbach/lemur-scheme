@@ -15,6 +15,12 @@
 
 (define (quit) (! (ruby Kernel) exit))
 
+(define (reduce method vals)
+  (if (nil? (cdr vals)) 
+    (car vals)
+    (method (car vals) (reduce method (cdr vals)))
+))
+
 ;; quick and dirty test framework
 (define (reportmsg msg) (print msg))
 (define (reporterr msg) (print (+ "ERROR: " msg)))
