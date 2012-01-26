@@ -18,7 +18,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "rparsec-ruby19"
-
-  s.add_development_dependency "grancher"
   s.add_development_dependency "contest"
 end
