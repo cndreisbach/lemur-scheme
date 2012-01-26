@@ -1,0 +1,8 @@
+---
+layout: post
+title: My Stack
+---
+
+All the tools I need to pull this interpreter thing off:
+
+<img src="/lemur-scheme/images/books.jpg" />
