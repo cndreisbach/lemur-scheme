@@ -22,17 +22,17 @@ end
 namespace :scheme do
   desc "Run tests"
   task :test do
-    test_cmd = "bin/lemur test/tests.scm"
+    test_cmd = "#{LEMUR_HOME}/bin/lemur test/tests.scm"
     puts test_cmd
     puts `#{test_cmd}`
   end
-  
+
   desc "Run R4RS compliance tests"
   task :r4rs do
     test_cmd = "bin/lemur test/r4rs.scm"
     puts test_cmd
     puts `#{test_cmd}`
-  end  
+  end
 end
 
 desc "GitHub site"
@@ -44,7 +44,7 @@ namespace 'site' do
 
     g.directory 'site'
   end
-  
+
   desc "Autogenerate site"
   task :auto do
     Jekyll.pygments = RUBY_PLATFORM !~ /java/
@@ -68,7 +68,7 @@ namespace 'site' do
 
     Serve::Application.run(['/tmp'])
   end
-  
+
   def globs(source)
     Dir.chdir(source) do
       dirs = Dir['*'].select { |x| File.directory?(x) }
